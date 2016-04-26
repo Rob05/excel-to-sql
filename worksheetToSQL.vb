@@ -64,8 +64,6 @@ Function CreateSQL(wrkTable As Excel.Worksheet)
     
     wrkTable.Activate
     wrkTable.Range("A1").Select
-    
-            sqlString = "INSERT INTO CSH_ACCTG_CFG VALUES(" + Chr(34) + ReportTypeCode + Chr(34) + "," + Chr(34) + CashAccountingCategoryCode + Chr(34) + ");"
 
     strInsert = "INSERT INTO [" + wrkTable.Name + "] ("
     

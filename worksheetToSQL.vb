@@ -70,7 +70,6 @@ Function CreateSQL(wrkTable As Excel.Worksheet)
     strInsert = "INSERT INTO [" + wrkTable.Name + "] ("
     
     Do Until IsEmpty(ActiveCell)
-        'If InStr(LCase(ActiveCell.Text), "description") = 0 Then
         If ActiveCell.Comment Is Nothing Then
             strInsert = strInsert + "[" + Replace(ActiveCell.Text, "'", "''") + "],"
             strColumn = strColumn + CStr(ActiveCell.Column) + ","
@@ -81,8 +80,6 @@ Function CreateSQL(wrkTable As Excel.Worksheet)
     strColumn = Left(strColumn, Len(strColumn) - 1)
     
     aryColumn = Split(strColumn, ",")
-    
-    'wrkTable.Range("A2").Select
     
     iRow = 2
     

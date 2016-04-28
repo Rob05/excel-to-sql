@@ -42,7 +42,7 @@ Sub ConfigurationSQL_Click()
     nFile1.Close
     Excel.Worksheets("Intro").Activate
     
-    MsgBox ("Cash Blotter SQL generated successfully. Review file system.")
+    MsgBox (filename1 + " SQL generated successfully. Review file system.")
 
 End Sub
 
@@ -82,24 +82,17 @@ Function CreateSQL(wrkTable As Excel.Worksheet)
     iRow = 2
     
     Do While wrkTable.Cells(iRow, 2) > 0
-        blnInsert = True
-        
-        If LCase(wrkTable.Name) = "DenominationList" Then
-            blnInsert = IIf(wrkTable.Cells(iRow, "D") = "Y", True, False)
-        End If
-        
-        If blnInsert Then
-            strSQLCmd = strInsert
-            For iColumn = 0 To UBound(aryColumn)
-                Select Case TypeName(wrkTable.Cells(iRow, CInt(aryColumn(iColumn))).Value)
-                Case "Date"
-                    strSQLCmd = strSQLCmd + "'" + sqlDateTime(wrkTable.Cells(iRow, CInt(aryColumn(iColumn)))) + "',"
-                Case "String"
-                    strSQLCmd = strSQLCmd + "'" + Trim(Replace(wrkTable.Cells(iRow, CInt(aryColumn(iColumn))), "'", "''")) + "',"
-                Case Else
-                    strSQLCmd = strSQLCmd + CStr(wrkTable.Cells(iRow, CInt(aryColumn(iColumn)))) + ","
-                End Select
-            Next
+
+        strSQLCmd = strInsert
+        For iColumn = 0 To UBound(aryColumn)
+            Select Case TypeName(wrkTable.Cells(iRow, CInt(aryColumn(iColumn))).Value)
+            Case "Date"
+                strSQLCmd = strSQLCmd + "'" + sqlDateTime(wrkTable.Cells(iRow, CInt(aryColumn(iColumn)))) + "',"
+            Case "String"
+                strSQLCmd = strSQLCmd + "'" + Trim(Replace(wrkTable.Cells(iRow, CInt(aryColumn(iColumn))), "'", "''")) + "',"
+            Case Else
+                strSQLCmd = strSQLCmd + CStr(wrkTable.Cells(iRow, CInt(aryColumn(iColumn)))) + ","
+            End Select
             
             strSQLCmd = Left(strSQLCmd, Len(strSQLCmd) - 1)
             strSQLCmd = strSQLCmd + ")"
